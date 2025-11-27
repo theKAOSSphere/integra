@@ -1,0 +1,92 @@
+@prefix bsize:  <http://lv2plug.in/ns/ext/buf-size#>.
+@prefix doap:   <http://usefulinc.com/ns/doap#>.
+@prefix epp:    <http://lv2plug.in/ns/ext/port-props#>.
+@prefix foaf:   <http://xmlns.com/foaf/0.1/>.
+@prefix lv2:    <http://lv2plug.in/ns/lv2core#>.
+@prefix mod:    <http://moddevices.com/ns/mod#>.
+@prefix modgui: <http://moddevices.com/ns/modgui#>.
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix units:  <http://lv2plug.in/ns/extensions/units#>.
+
+<https://github.com/theKAOSSphere/integra>
+a lv2:Plugin, lv2:FilterPlugin;
+
+doap:name "Integra";
+
+doap:developerer [
+    foaf:name "KAOSS";
+    foaf:homepage <https://github.com/theKAOSSphere/integra>;
+    foaf:mbox <mailto:thekaossphere@gmail.com>;
+];
+
+doap:maintainer [
+    foaf:name "KAOSS";
+    foaf:homepage <https://github.com/theKAOSSphere/integra>;
+    foaf:mbox <mailto:thekaossphere@gmail.com>;
+];
+
+lv2:microVersion 1 ;
+lv2:minorVersion 0 ;
+
+mod:brand "KAOSS";
+mod:label "Integra";
+
+doap:license "GPL";
+
+rdfs:comment """
+Integra is a simple EQ plugin to mimic the functionality of the TC Electronic Integrated Preamp.
+""";
+
+lv2:port
+[
+    a lv2:AudioPort, lv2:InputPort;
+    lv2:index 0;
+    lv2:symbol "In";
+    lv2:name "In";
+    lv2:shortName "In";
+],
+[
+    a lv2:AudioPort, lv2:OutputPort;
+    lv2:index 1;
+    lv2:symbol "Out";
+    lv2:name "Out";
+    lv2:shortName "Out";
+],
+[
+    a lv2:ControlPort, lv2:InputPort;
+    lv2:index 2;
+    lv2:symbol "Bass";
+    lv2:name "Bass";
+    lv2:shortName "Bass";
+    lv2:default 0.0;
+    lv2:minimum -15.0;
+    lv2:maximum 15.0;
+    units:unit units:db;
+],
+[
+    a lv2:ControlPort, lv2:InputPort;
+    lv2:index 3;
+    lv2:symbol "Treble";
+    lv2:name "Treble";
+    lv2:shortName "Treble";
+    lv2:default 0.0;
+    lv2:minimum -15.0;
+    lv2:maximum 15.0;
+    units:unit units:db;
+],
+[
+    a lv2:ControlPort, lv2:InputPort;
+    lv2:index 4;
+    lv2:symbol "Volume";
+    lv2:name "Volume";
+    lv2:shortName "Volume";
+    lv2:default 0.0;
+    lv2:minimum -90.0;
+    lv2:maximum 25.0;
+    units:unit units:db;
+    lv2:scalePoint [
+        rdfs:label "-inf";
+        rdf:value -90.0;
+    ];
+] .

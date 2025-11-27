@@ -1,0 +1,15 @@
+@prefix lv2:  <http://lv2plug.in/ns/lv2core#> .
+@prefix pset: <http://lv2plug.in/ns/ext/presets#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+<https://github.com/theKAOSSphere/integra> a lv2:Plugin;
+    lv2:binary <integra.so>;
+    rdfs:seeAlso <integra.ttl>.
+
+<https://github.com/theKAOSSphere/integra#default>
+    a pset:Preset ;
+    lv2:appliesTo <https://github.com/theKAOSSphere/integra> ;
+    rdfs:label "Default" ;
+    rdfs:seeAlso <default-preset.ttl> .
+
+<https://github.com/theKAOSSphere/integra> rdfs:seeAlso <modgui.ttl> .

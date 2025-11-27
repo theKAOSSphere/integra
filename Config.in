@@ -1,0 +1,6 @@
+config BR2_PACKAGE_INTEGRA
+	bool "integra"
+	help
+	  Integra LV2 plugin.
+
+	  https://github.com/theKAOSSphere/integra

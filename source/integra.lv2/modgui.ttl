@@ -1,0 +1,30 @@
+@prefix modgui: <http://moddevices.com/ns/modgui#> .
+@prefix lv2:    <http://lv2plug.in/ns/lv2core#> .
+
+<https://github.com/theKAOSSphere/integra>
+    modgui:gui [
+        modgui:resourcesDirectory <modgui> ;
+        modgui:iconTemplate <modgui/icon-integra.html> ;
+        modgui:stylesheet <modgui/stylesheet-integra.css> ;
+        modgui:screenshot <modgui/screenshot-integra.png> ;
+        modgui:thumbnail <modgui/thumbnail-integra.png> ;
+        modgui:brand "KAOSS" ;
+        modgui:label "Integra" ;
+        modgui:model "boxy" ;
+        modgui:panel "3-knobs" ;
+        modgui:color "black" ;
+        modgui:knob "copper" ;
+        modgui:port [
+            lv2:index 0 ;
+            lv2:symbol "Bass" ;
+            lv2:name "Bass" ;
+        ] , [
+            lv2:index 1 ;
+            lv2:symbol "Treble" ;
+            lv2:name "Treble" ;
+        ] , [
+            lv2:index 2 ;
+            lv2:symbol "Volume" ;
+            lv2:name "Volume" ;
+        ] ;
+    ] .

@@ -1,0 +1,18 @@
+@prefix lv2:  <http://lv2plug.in/ns/lv2core#> .
+@prefix pset: <http://lv2plug.in/ns/ext/presets#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+<default>
+    a pset:Preset ;
+    rdfs:label "Default" ;
+    lv2:appliesTo <https://github.com/theKAOSSphere/integra> ;
+    lv2:port [
+        lv2:symbol "Bass" ;
+        pset:value 0.0
+    ] , [
+        lv2:symbol "Treble" ;
+        pset:value 0.0
+    ] , [
+        lv2:symbol "Volume" ;
+        pset:value 0.0
+    ] .
