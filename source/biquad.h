@@ -1,3 +1,9 @@
+//
+// biquad.h - Simple biquad filter implementation used by Integra
+// Copyright (C) 2025 theKAOSSphere
+// SPDX-License-Identifier: GPL-3.0-or-later
+//
+
 #ifndef BIQUAD_H
 #define BIQUAD_H
 

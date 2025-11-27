@@ -1,3 +1,9 @@
+//
+// integra.cpp - Integra LV2 Plugin
+// Copyright (C) 2025 theKAOSSphere
+// SPDX-License-Identifier: GPL-3.0-or-later
+//
+
 #include "lv2/lv2plug.in/ns/lv2core/lv2.h"
 #include <cstdlib>
 #include <cmath>

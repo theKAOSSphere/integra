@@ -1,28 +1,30 @@
-# Integra LV2 Plugin (Skeleton)
+# Integra LV2 Plugin
 
-This directory contains a minimal skeleton for an LV2 plugin named *Integra*.
+Integra is a simple but effective EQ plugin inspired by the functionality of the TC Electronic Integrated Preamp. It provides classic Bass and Treble controls and a clean volume adjustment, making it a great utility for subtle tone shaping.
 
-Files created:
+This plugin is fully compatible with the MOD Audio ecosystem and includes a custom MODGUI.
 
-- `Makefile.mk` — top-level wrapper which calls `source/Makefile.mk`.
-- `source/Makefile.mk` — build rules that compile `integra.cpp` into `integra.so`.
-- `source/integra.cpp` — blank placeholder plugin source (implement DSP here).
-- `source/integra.lv2/manifest.ttl` — LV2 manifest describing the plugin binary and TTL references.
-- `source/integra.lv2/integra.ttl` — plugin TTL including I/O ports and a control port.
-- `source/integra.lv2/modgui.ttl` — minimal modgui metadata.
-- `source/integra.lv2/modgui/` — minimal UI files (an SVG icon, stylesheet placeholder, and `knobs/` directory).
+## Features
 
-How to use:
+*   **Bass Control:** Boost or cut low frequencies by up to 15 dB.
+*   **Treble Control:** Boost or cut high frequencies by up to 15 dB.
+*   **Volume Control:** Adjust the output level from -90 dB to +25 dB.
 
-1. Add your LV2 DSP implementation to `source/integra.cpp`.
-2. Update `integra.ttl` metadata to match your plugin's name, ports, etc.
-3. Run the build via WSL or a Linux-like toolchain:
+## Building the Plugin
 
-```pwsh
-# From the repo root (Windows PowerShell example)
-make -C integra
+To build the plugin, you need a standard LV2 development environment and toolchain (e.g., `build-essential` on Debian/Ubuntu).
+
+From the root of this repository, run the following command:
+
+```bash
+make
 ```
 
-Notes:
-- This is a minimal skeleton; it does not implement a fully LV2-compliant plugin or UI. Use the `ricochet` and `one-button-looper` examples as references for full setups.
+This will compile the plugin source code (`integra.cpp`) and generate the `integra.so` binary inside the `source/integra.lv2` bundle directory.
+
+## Installation
+
+Once built, you can install the plugin by copying the entire `source/integra.lv2` directory to your system's LV2 plugins path (e.g., `~/.lv2/` or `/usr/lib/lv2/`).
+
+For use with MOD devices, you can use the `mod-plugin-builder` toolchain to create a package for deployment.
 

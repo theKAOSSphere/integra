@@ -32,7 +32,7 @@ lv2:minorVersion 0 ;
 mod:brand "KAOSS";
 mod:label "Integra";
 
-doap:license "GPL";
+doap:license "GPL-3.0-or-later";
 
 rdfs:comment """
 Integra is a simple EQ plugin to mimic the functionality of the TC Electronic Integrated Preamp.
