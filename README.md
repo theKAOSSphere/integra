@@ -1,6 +1,6 @@
 # Integra LV2 Plugin
 
-Integra is a simple but effective EQ plugin inspired by the functionality of the TC Electronic Integrated Preamp. It provides classic Bass and Treble controls and a clean volume adjustment, making it a great utility for subtle tone shaping.
+Integra is a simple but effective EQ plugin inspired by the functionality of the TC Electronic Integrated Preamplifier. It provides classic Bass and Treble controls and a clean volume adjustment, making it a great utility for subtle tone shaping.
 
 This plugin is fully compatible with the MOD Audio ecosystem and includes a custom MODGUI.
 

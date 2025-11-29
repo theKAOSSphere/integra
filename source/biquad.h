@@ -13,7 +13,7 @@
 #define M_PI 3.14159265358979323846
 #endif
 
-enum FilterType { LowPass, HighPass, Peaking, LowShelf, HighShelf };
+enum FilterType { LowPass, HighPass, Peaking, LowShelf, HighShelf, LowShelf1, HighShelf1 };
 
 class Biquad {
 public:
@@ -79,6 +79,47 @@ public:
                 a0 = (A + 1.0) - (A - 1.0) * cs + 2 * sqrtA * alpha;
                 a1 = 2 * ((A - 1.0) - (A + 1.0) * cs);
                 a2 = (A + 1.0) - (A - 1.0) * cs - 2 * sqrtA * alpha;
+                break;
+            }
+            case LowShelf1:
+            {
+                // First-order Low Shelf (True 6dB/octave "Analog" Slope)
+                // Behavior: Shelves the Low end to V0, High end is Unity.
+                
+                // Convert 'A' (which is 10^(dB/40)) into Voltage Gain V0 (10^(dB/20))
+                double V0 = A * A; 
+                double K = tan(M_PI * freq / fs);
+
+                // Normalization factor
+                double norm = 1.0 / (1.0 + K);
+                
+                // Standard Bilinear Transform for H(s) = (V0 + s) / (1 + s)
+                b0 = (V0 * K + 1.0) * norm;
+                b1 = (V0 * K - 1.0) * norm;
+                b2 = 0.0;
+                a0 = 1.0;
+                a1 = (K - 1.0) * norm;
+                a2 = 0.0;
+                break;
+            }
+
+            case HighShelf1:
+            {
+                // First-order High Shelf (True 6dB/octave "Analog" Slope)
+                // Behavior: Low end is Unity, Shelves the High end to V0.
+
+                double V0 = A * A; 
+                double K = tan(M_PI * freq / fs);
+                
+                double norm = 1.0 / (1.0 + K);
+
+                // Standard Bilinear Transform for H(s) = (1 + V0*s) / (1 + s)
+                b0 = (K + V0) * norm;
+                b1 = (K - V0) * norm;
+                b2 = 0.0;
+                a0 = 1.0;
+                a1 = (K - 1.0) * norm;
+                a2 = 0.0;
                 break;
             }
         }

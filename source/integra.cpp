@@ -13,13 +13,12 @@
 
 const double lowShelfFreq  = 154.0f;
 const double highShelfFreq = 7200.0f;
-const double shelfQ        = 0.707;
 
 enum portIndex {
     PORT_INPUT = 0, 
     PORT_OUTPUT = 1, 
-    PORT_BASS = 2, 
-    PORT_TREBLE = 3, 
+    PORT_TREBLE = 2,
+    PORT_BASS = 3, 
     PORT_VOLUME = 4
 };
 
@@ -31,8 +30,8 @@ typedef struct integra
     float*       output;
 
     // Control port pointers
-    const float* bass;
     const float* treble;
+    const float* bass;
     const float* volume;
 
     // DSP state
@@ -42,8 +41,8 @@ typedef struct integra
     double sampleRate;
 
     // Cached control values to avoid unnecessary recalculations
-    float last_bass;
     float last_treble;
+    float last_bass;
 } Integra;
 
 // This function creates an instance of the LV2 plugin
@@ -58,8 +57,8 @@ static LV2_Handle instantiate(const LV2_Descriptor*     descriptor,
     self->sampleRate = rate;
 
     // Initialize cached values to NAN to force a calculation on the first run
-    self->last_bass = NAN;
     self->last_treble = NAN;
+    self->last_bass = NAN;
 
     return (LV2_Handle)self;
 }
@@ -72,8 +71,8 @@ static void connect_port(LV2_Handle instance, uint32_t port, void* data)
     {
         case PORT_INPUT:    self->input  = (const float*)data; break;
         case PORT_OUTPUT:   self->output = (float*)data;       break;
-        case PORT_BASS:     self->bass   = (const float*)data; break;
         case PORT_TREBLE:   self->treble = (const float*)data; break;
+        case PORT_BASS:     self->bass   = (const float*)data; break;
         case PORT_VOLUME:   self->volume = (const float*)data; break;
     }
 }
@@ -82,27 +81,42 @@ static void run(LV2_Handle instance, uint32_t n_samples)
 {
     Integra* self =  (Integra*)instance;
 
-    // Parameter change check
-    if (*self->bass != self->last_bass)
-    {
-        self->low_shelf.calculateCoefficients(LowShelf, self->sampleRate, lowShelfFreq, shelfQ, *self->bass);
-        self->last_bass = *self->bass; // Update cache
-    }
+    // --- INPUT MAPPING ---
+    // Map visual knob values to internal dB values
+    const float bass_db = *self->bass * 1.5f; // -10..+10 -> -15..+15
+    const float treble_db = *self->treble * 1.5f; // -10..+10 -> -15..+15
 
+    // Map Volume 0..10 to -90..+25 dB
+    float volume_db;
+    if (*self->volume <= 0.0f) {
+        volume_db = -90.0f; // Mute at 0
+    } else {
+        // Map 0-10 to -90dB to +25dB
+        volume_db = -90.0f + (*self->volume * 11.5f); 
+    }
+    const float volume_lin  = powf(10.0f, volume_db / 20.0f);
+
+
+    // Parameter change check
     if (*self->treble != self->last_treble)
     {
-        self->high_shelf.calculateCoefficients(HighShelf, self->sampleRate, highShelfFreq, shelfQ, *self->treble);
+        self->high_shelf.calculateCoefficients(HighShelf1, self->sampleRate, highShelfFreq, 0.0, treble_db);
         self->last_treble = *self->treble; // Update cache
     }
 
-    const float volume  = powf(10.0f, *self->volume / 20.0f);
+    if (*self->bass != self->last_bass)
+    {
+        self->low_shelf.calculateCoefficients(LowShelf1, self->sampleRate, lowShelfFreq, 0.0, bass_db);
+        self->last_bass = *self->bass; // Update cache
+    }
+
 
     for (uint32_t i = 0; i < n_samples; i++)
     {
         float sample = self->input[i];
-        sample = self->low_shelf.process(sample);
         sample = self->high_shelf.process(sample);
-        self->output[i] = sample * volume;
+        sample = self->low_shelf.process(sample);
+        self->output[i] = sample * volume_lin;
     }
 }
 
