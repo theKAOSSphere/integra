@@ -26,7 +26,7 @@ doap:maintainer [
     foaf:mbox <mailto:thekaossphere@gmail.com>;
 ];
 
-lv2:microVersion 1 ;
+lv2:microVersion 2 ;
 lv2:minorVersion 0 ;
 
 mod:brand "KAOSS";
@@ -76,10 +76,10 @@ lv2:port
 [
     a lv2:ControlPort, lv2:InputPort;
     lv2:index 4;
-    lv2:symbol "Volume";
-    lv2:name "Volume";
-    lv2:shortName "Volume";
-    lv2:default 7.82;
+    lv2:symbol "Level";
+    lv2:name "Level";
+    lv2:shortName "Level";
+    lv2:default 3.80;
     lv2:minimum 0.0;
     lv2:maximum 10.0;
 ] .

@@ -24,7 +24,7 @@
             lv2:name "Bass" ;
         ] , [
             lv2:index 2 ;
-            lv2:symbol "Volume" ;
-            lv2:name "Volume" ;
+            lv2:symbol "Level" ;
+            lv2:name "Level" ;
         ] ;
     ] .

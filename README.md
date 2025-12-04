@@ -1,30 +1,137 @@
-# Integra LV2 Plugin
+# Integra – LV2 Integrated Preamplifier
 
-Integra is a simple but effective EQ plugin inspired by the functionality of the TC Electronic Integrated Preamplifier. It provides classic Bass and Treble controls and a clean volume adjustment, making it a great utility for subtle tone shaping.
+**A faithful emulation of the TC Electronic Integrated Preamplifier, optimized for the MOD Audio platform.**
 
-This plugin is fully compatible with the MOD Audio ecosystem and includes a custom MODGUI.
+This plugin is designed to provide simplicity, accurate control feel, and seamless integration with the MOD Audio ecosystem.
+
+<p align="center">
+  <img src="source/integra.lv2/modgui/screenshot-integra.png" alt="Integra screenshot" width="200" />
+</p>
+
+---
 
 ## Features
 
-*   **Bass Control:** Boost or cut low frequencies by up to 15 dB.
-*   **Treble Control:** Boost or cut high frequencies by up to 15 dB.
-*   **Volume Control:** Adjust the output level from -90 dB to +25 dB.
+*   **Faceplate-accurate controls:** The plugin's knobs match the behaviour of the original pedal's knobs.
+*   **Bass / Treble:** Each control uses a first-order shelving filter with +/-15 dB of gain available internally.
+*   **Level (Volume):** Displayed 0..10 control whose internal taper is cubic and maps to an audio gain range roughly -90 dB .. +25 dB. Unity gain is approximately Level = 3.80.
+*   **Dynamic filter freqs:** Treble and Bass frequency centers shift with knob position to better emulate the hardware's behavior (e.g., Treble moves from ~600 Hz to several kHz depending on the knob position).
+*   **Analog-style Low-pass:** A gentle analog-style low-pass filter (18 kHz) is applied at the output for realistic rolloff.
+*   **Lightweight and compatible:** Compiles as an LV2 plugin and works with MOD's `mod-plugin-builder`.
 
-## Building the Plugin
+---
 
-To build the plugin, you need a standard LV2 development environment and toolchain (e.g., `build-essential` on Debian/Ubuntu).
+## Quick Settings
 
-From the root of this repository, run the following command:
+Here are some quick recommended settings to get started with the Integra plugin, as well as achieve some recognisable tones:
 
-```bash
-make
-```
+#### Clean Boost
+- **Bass:** 0
+- **Treble:** 0
+- **Level:** 5 (or as per taste)
 
-This will compile the plugin source code (`integra.cpp`) and generate the `integra.so` binary inside the `source/integra.lv2` bundle directory.
+#### Early Meshuggah Tones
+- **Bass:** -10
+- **Treble:** +2 (or higher)
+- **Level:** 4.5 (or higher)
+
+#### Fortin Grind/33 Emulation
+- **Bass:** -10
+- **Treble:** -3 to -4
+- **Level:** 6 (or as per taste)
+
+---
 
 ## Installation
 
-Once built, you can install the plugin by copying the entire `source/integra.lv2` directory to your system's LV2 plugins path (e.g., `~/.lv2/` or `/usr/lib/lv2/`).
+For most users, it is recommended to download the pre-built plugin from the **[Releases Page](https://github.com/theKAOSSphere/integra/releases)**.
 
-For use with MOD devices, you can use the `mod-plugin-builder` toolchain to create a package for deployment.
+1.  Go to the [Releases Page](https://github.com/theKAOSSphere/integra/releases).
+2.  Download the latest `integra.lv2-vx.x.tgz` file.
+3.  Unzip the file. You will have a folder named `integra.lv2`.
 
+### For MOD Audio Devices
+
+1.  **Transfer the Plugin:** Copy the entire `integra.lv2` directory from your computer to your MOD Audio device. You can use `scp` for this:
+    ```bash
+    # Example command from your Downloads folder
+    scp -r ~/Downloads/integra.lv2 root@192.168.51.1:/data/plugins/
+    ```
+2.  **Restart the Host:** Connect to your device via `ssh` and restart the `mod-host` service:
+    ```bash
+    ssh root@192.168.51.1
+    systemctl restart mod-host
+    ```
+3.  **Refresh the Web UI:** Reload the MOD web interface in your browser. Integra should now be available.
+
+### For Linux Desktops
+
+1.  **Copy the LV2 Bundle:** Copy the `integra.lv2` folder to your user's LV2 directory.
+    ```bash
+    cp -r ~/Downloads/integra.lv2 /path/to/lv2/directory/
+    ```
+2.  **Scan for Plugins:** Your LV2 host (e.g., Ardour, Carla) should automatically detect the new plugin on its next scan.
+
+---
+
+## Building From Source
+
+<details>
+<summary><strong>► Build for MOD Audio Devices (using mod-plugin-builder)</strong></summary>
+
+This project is configured to be built using the **`mod-plugin-builder`** toolchain. For more details on setting up the MOD Plugin Builder, please refer to the [mod-plugin-builder](https://github.com/mod-audio/mod-plugin-builder) repository.
+
+#### Prerequisites
+
+1.  A functional **MOD Plugin Builder** environment.
+2.  The necessary build dependencies (`libtool`, `pkg-config`) are handled by the buildroot environment.
+
+#### Build Steps
+
+1.  **Clone the Repository:**
+    Place the `integra` repository inside the `plugins/package` directory of your `mod-plugin-builder` folder.
+    ```bash
+    cd /path/to/mod-plugin-builder/plugins/package
+    git clone https://github.com/theKAOSSphere/integra
+    ```
+2.  **Run the Build:**
+    Navigate to the root of the `mod-plugin-builder` and run the build command, targeting `integra`.
+    ```bash
+    cd /path/to/mod-plugin-builder
+    ./build <target> integra
+    ```
+    Replace `<target>` with your device target (e.g., `modduox-new`). The compiled bundle will be located in the `/path/to/mod-workdir/<target>/target/usr/local/lib/lv2` directory. You can then follow the installation instructions to transfer it to your device.
+
+</details>
+
+<details>
+<summary><strong>► Build for Linux Desktop (Standalone)</strong></summary>
+
+For testing on a standard Linux desktop without the MOD toolchain.
+
+### Prerequisites
+
+You must have the necessary development libraries installed. On a Debian-based system (like Ubuntu), you can install them with:
+```bash
+sudo apt-get update
+sudo apt-get install build-essential libtool pkg-config lv2-dev
+```
+
+### Build Steps
+
+1.  **Navigate to the Source Directory:**
+    ```bash
+    cd source/
+    ```
+2.  **Compile the Plugin:**
+    ```bash
+    make
+    ```
+    An `integra.lv2` bundle will be created inside the `source/` directory. You can then follow the desktop installation instructions to copy it to `/path/to/lv2/directory/`.
+</details>
+
+---
+
+## License
+
+This plugin is licensed under GPLv3. See the `LICENSE` file for details. The project contains the `SPDX-License-Identifier: GPL-3.0-or-later` header in the source files.

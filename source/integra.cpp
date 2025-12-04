@@ -11,15 +11,16 @@
 
 #define INTEGRA_URI "https://github.com/theKAOSSphere/integra"
 
-const double lowShelfFreq  = 154.0f;
-const double highShelfFreq = 7200.0f;
+// Static Analog LPF
+const double ANALOG_LPF_FREQ = 18000.0f;
+const float MAX_GAIN = 17.78279f; // 25 dB in linear scale
 
 enum portIndex {
-    PORT_INPUT = 0, 
+    PORT_INPUT  = 0, 
     PORT_OUTPUT = 1, 
     PORT_TREBLE = 2,
-    PORT_BASS = 3, 
-    PORT_VOLUME = 4
+    PORT_BASS   = 3, 
+    PORT_LEVEL  = 4
 };
 
 // This struct contains the stuff needed for the plugin instance
@@ -32,11 +33,12 @@ typedef struct integra
     // Control port pointers
     const float* treble;
     const float* bass;
-    const float* volume;
+    const float* level;
 
     // DSP state
     Biquad low_shelf;
     Biquad high_shelf;
+    Biquad analog_lpf;
 
     double sampleRate;
 
@@ -55,7 +57,8 @@ static LV2_Handle instantiate(const LV2_Descriptor*     descriptor,
     if (!self) return NULL;
 
     self->sampleRate = rate;
-
+    self->analog_lpf.calculateCoefficients(LowPass, rate, ANALOG_LPF_FREQ, 0.707, 0.0);
+    
     // Initialize cached values to NAN to force a calculation on the first run
     self->last_treble = NAN;
     self->last_bass = NAN;
@@ -73,7 +76,7 @@ static void connect_port(LV2_Handle instance, uint32_t port, void* data)
         case PORT_OUTPUT:   self->output = (float*)data;       break;
         case PORT_TREBLE:   self->treble = (const float*)data; break;
         case PORT_BASS:     self->bass   = (const float*)data; break;
-        case PORT_VOLUME:   self->volume = (const float*)data; break;
+        case PORT_LEVEL:    self->level  = (const float*)data; break;
     }
 }
 
@@ -87,27 +90,41 @@ static void run(LV2_Handle instance, uint32_t n_samples)
     const float treble_db = *self->treble * 1.5f; // -10..+10 -> -15..+15
 
     // Map Volume 0..10 to -90..+25 dB
-    float volume_db;
-    if (*self->volume <= 0.0f) {
-        volume_db = -90.0f; // Mute at 0
-    } else {
-        // Map 0-10 to -90dB to +25dB
-        volume_db = -90.0f + (*self->volume * 11.5f); 
-    }
-    const float volume_lin  = powf(10.0f, volume_db / 20.0f);
+    // Cubic taper to replicate log pot behavior
+    float vol_norm = *self->level * 0.1f;
+    float vol_taper = vol_norm * vol_norm * vol_norm;
+    const float volume_lin = vol_taper * MAX_GAIN;
 
-
-    // Parameter change check
+    // Sliding frequency logic based on plots generated from actual hardware images
     if (*self->treble != self->last_treble)
     {
-        self->high_shelf.calculateCoefficients(HighShelf1, self->sampleRate, highShelfFreq, 0.0, treble_db);
-        self->last_treble = *self->treble; // Update cache
+        // Knob Range: -10 to +10
+        // Normalized Turn: 0.0 to 1.0 (Magnitude of turn)
+        double turn = std::abs(*self->treble) / 10.0; 
+        
+        // Target:
+        // 0.0 (Center) -> 600 Hz 
+        // 0.2 (Meshuggah) -> ~2200 Hz 
+        // 1.0 (Max) -> 8600 Hz 
+        // Linear Interpolation: 600 + (Turn * 8000)
+        double dynFreq = 600.0 + (turn * 8000.0); 
+        
+        self->high_shelf.calculateCoefficients(HighShelf1, self->sampleRate, dynFreq, 0.0, treble_db);
+        self->last_treble = *self->treble;
     }
 
     if (*self->bass != self->last_bass)
     {
-        self->low_shelf.calculateCoefficients(LowShelf1, self->sampleRate, lowShelfFreq, 0.0, bass_db);
-        self->last_bass = *self->bass; // Update cache
+        double turn = std::abs(*self->bass) / 10.0;
+        
+        // Target:
+        // 0.0 (Center) -> 80 Hz
+        // 1.0 (Max Cut) -> 600 Hz
+        // Linear Interpolation: 80 + (Turn * 520)
+        double dynFreq = 80.0 + (turn * 520.0);
+        
+        self->low_shelf.calculateCoefficients(LowShelf1, self->sampleRate, dynFreq, 0.0, bass_db);
+        self->last_bass = *self->bass;
     }
 
 
@@ -116,6 +133,7 @@ static void run(LV2_Handle instance, uint32_t n_samples)
         float sample = self->input[i];
         sample = self->high_shelf.process(sample);
         sample = self->low_shelf.process(sample);
+        sample = self->analog_lpf.process(sample);
         self->output[i] = sample * volume_lin;
     }
 }
