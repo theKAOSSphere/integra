@@ -22,7 +22,7 @@ doap:developer [
 
 doap:maintainer [
     foaf:name "KAOSS";
-    foaf:homepage <https://github.com/theKAOSSphere/integra>;
+    foaf:homepage <https://github.com/theKAOSSphere>;
     foaf:mbox <mailto:thekaossphere@gmail.com>;
 ];
 
