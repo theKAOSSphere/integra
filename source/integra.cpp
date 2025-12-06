@@ -20,7 +20,7 @@ enum portIndex {
     PORT_OUTPUT = 1, 
     PORT_TREBLE = 2,
     PORT_BASS   = 3, 
-    PORT_LEVEL  = 4
+    PORT_VOLUME = 4
 };
 
 // This struct contains the stuff needed for the plugin instance
@@ -33,7 +33,7 @@ typedef struct integra
     // Control port pointers
     const float* treble;
     const float* bass;
-    const float* level;
+    const float* volume;
 
     // DSP state
     Biquad low_shelf;
@@ -76,7 +76,7 @@ static void connect_port(LV2_Handle instance, uint32_t port, void* data)
         case PORT_OUTPUT:   self->output = (float*)data;       break;
         case PORT_TREBLE:   self->treble = (const float*)data; break;
         case PORT_BASS:     self->bass   = (const float*)data; break;
-        case PORT_LEVEL:    self->level  = (const float*)data; break;
+        case PORT_VOLUME:   self->volume = (const float*)data; break;
     }
 }
 
@@ -91,7 +91,7 @@ static void run(LV2_Handle instance, uint32_t n_samples)
 
     // Map Volume 0..10 to -90..+25 dB
     // Cubic taper to replicate log pot behavior
-    float vol_norm = *self->level * 0.1f;
+    float vol_norm = *self->volume * 0.1f;
     float vol_taper = vol_norm * vol_norm * vol_norm;
     const float volume_lin = vol_taper * MAX_GAIN;
 
