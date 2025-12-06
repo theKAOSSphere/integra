@@ -1,0 +1,13 @@
+@prefix lv2:  <http://lv2plug.in/ns/lv2core#> .
+@prefix pset: <http://lv2plug.in/ns/ext/presets#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+<https://github.com/theKAOSSphere/integra#pulverize> a lv2:Plugin;
+    lv2:binary <pulverize.so>;
+    rdfs:seeAlso <pulverize.ttl>.
+
+<https://github.com/theKAOSSphere/integra#pulverize#default>
+    a pset:Preset ;
+    lv2:appliesTo <https://github.com/theKAOSSphere/integra#pulverize> ;
+    rdfs:label "Default" ;
+    rdfs:seeAlso <default-preset.ttl> .
