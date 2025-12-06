@@ -21,12 +21,13 @@ INTEGRA_TARGET_MAKE = PATH="$(INTEGRA_TOOLCHAIN_PATH)" \
 	LDFLAGS="$(TARGET_LDFLAGS)" \
 	$(MAKE) -C $(@D)
 
+# This tells the builder to run make inside the 'source' directory
 define INTEGRA_BUILD_CMDS
-	$(INTEGRA_TARGET_MAKE)
+    $(INTEGRA_TARGET_MAKE) -C $(@D)/source
 endef
 
 define INTEGRA_INSTALL_TARGET_CMDS
-	$(INTEGRA_TARGET_MAKE) install DESTDIR=$(TARGET_DIR)
+	$(INTEGRA_TARGET_MAKE) -C $(@D)/source install DESTDIR=$(TARGET_DIR)
 endef
 
 $(eval $(generic-package))
