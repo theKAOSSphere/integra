@@ -12,12 +12,12 @@ This plugin is designed to provide simplicity, accurate control feel, and seamle
 
 ## Features
 
+*   **Accurate faceplate design:** The visual design closely resembles the original hardware for an authentic user experience.
 *   **Faceplate-accurate controls:** The plugin's knobs match the behaviour of the original pedal's knobs.
 *   **Bass / Treble:** Each control uses a first-order shelving filter with +/-15 dB of gain available internally.
-*   **Level (Volume):** Displayed 0..10 control whose internal taper is cubic and maps to an audio gain range roughly -90 dB .. +25 dB. Unity gain is approximately Level = 3.80.
-*   **Dynamic filter freqs:** Treble and Bass frequency centers shift with knob position to better emulate the hardware's behavior (e.g., Treble moves from ~600 Hz to several kHz depending on the knob position).
+*   **Volume:** Displayed 0..10 control whose internal taper is cubic and maps to an audio gain range roughly -90 dB .. +25 dB. Unity gain is approximately Volume = 3.80.
+*   **Dynamic filter frequencies:** Treble and Bass frequency centers shift with knob position to better emulate the hardware's behavior (e.g., Treble moves from ~600 Hz to several kHz depending on the knob position).
 *   **Analog-style Low-pass:** A gentle analog-style low-pass filter (18 kHz) is applied at the output for realistic rolloff.
-*   **Lightweight and compatible:** Compiles as an LV2 plugin and works with MOD's `mod-plugin-builder`.
 
 ---
 
@@ -28,17 +28,17 @@ Here are some quick recommended settings to get started with the Integra plugin,
 #### Clean Boost
 - **Bass:** 0
 - **Treble:** 0
-- **Level:** 5 (or as per taste)
+- **Volume:** 5 (or as per taste)
 
 #### Early Meshuggah Tones
 - **Bass:** -10
 - **Treble:** +2 (or higher)
-- **Level:** 4.5 (or higher)
+- **Volume:** 4.5 (or higher)
 
 #### Fortin Grind/33 Emulation
 - **Bass:** -10
 - **Treble:** -3 to -4
-- **Level:** 6 (or as per taste)
+- **Volume:** 6 (or as per taste)
 
 ---
 
