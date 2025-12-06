@@ -11,3 +11,5 @@
     lv2:appliesTo <https://github.com/theKAOSSphere/integra#pulverize> ;
     rdfs:label "Default" ;
     rdfs:seeAlso <default-preset.ttl> .
+
+<https://github.com/theKAOSSphere/integra#pulverize> rdfs:seeAlso <modgui.ttl> .
