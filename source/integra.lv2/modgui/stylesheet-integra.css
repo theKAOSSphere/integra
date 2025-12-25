@@ -73,10 +73,31 @@
     background-position:center center;
     background-repeat:no-repeat;
     height:32px;
-    left:20px;
+    left:155px;
     position:absolute;
     right:10px;
-    top:340px;
+    top:250px;
+}
+
+
+/* = TOGGLE
+================================================ */
+.mod-pedal-boxy{{{cns}}} .mod-footswitch {
+    background-image:url(/resources/pedals/toggle.png{{{ns}}});
+    background-position:top center;
+    background-repeat:no-repeat;
+    background-size:auto 150px;
+    bottom: 70px;
+    left: 150px;
+    right: 13px;
+    cursor:pointer;
+    height: 75px;
+    width: 75px;
+    margin: auto;
+    position:absolute !important;
+}
+.mod-pedal-boxy{{{cns}}} .mod-footswitch.on {
+    background-position-y: bottom !important
 }
 
 
