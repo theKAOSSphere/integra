@@ -15,10 +15,10 @@ Both plugins are designed to provide simplicity, accurate control feel, and seam
   </tr>
   <tr>
     <td align="center">
-      <img src="source/integra.lv2/modgui/screenshot-integra.png" alt="Integra" width="160" />
+      <img src="source/kaoss-integra.lv2/modgui/screenshot-integra.png" alt="Integra" width="160" />
     </td>
     <td align="center">
-      <img src="source/pulverize.lv2/modgui/screenshot-pulverize.png" alt="Pulverize" width="160" />
+      <img src="source/kaoss-pulverize.lv2/modgui/screenshot-pulverize.png" alt="Pulverize" width="160" />
     </td>
   </tr>
 </table>
@@ -64,15 +64,15 @@ Here are some recommended starting points for each plugin:
 It is recommended to download the pre-built plugins from the **[Releases Page](https://github.com/theKAOSSphere/integra/releases)**.
 
 1.  Go to the [Releases Page](https://github.com/theKAOSSphere/integra/releases).
-2.  Download the latest release archive. You will find both `integra.lv2` and `pulverize.lv2` bundles.
-3.  Unzip the files. You will have two folders: `integra.lv2` and `pulverize.lv2`.
+2.  Download the latest release archive. You will find both `kaoss-integra.lv2` and `kaoss-pulverize.lv2` bundles.
+3.  Unzip the files. You will have two folders: `kaoss-integra.lv2` and `kaoss-pulverize.lv2`.
 
 ### For MOD Audio Devices
 
-1.  **Transfer the Plugins:** Copy both the `integra.lv2` and `pulverize.lv2` directories to your MOD device.
+1.  **Transfer the Plugins:** Copy both the `kaoss-integra.lv2` and `kaoss-pulverize.lv2` directories to your MOD device.
     ```bash
     # Example command
-    scp -r ~/Downloads/integra.lv2 ~/Downloads/pulverize.lv2 root@192.168.51.1:/data/plugins/
+    scp -r ~/Downloads/kaoss-integra.lv2 ~/Downloads/kaoss-pulverize.lv2 root@192.168.51.1:/data/plugins/
     ```
 2.  **Restart the Host:** Connect to your device via `ssh` and restart the `mod-host` service.
     ```bash
@@ -85,8 +85,8 @@ It is recommended to download the pre-built plugins from the **[Releases Page](h
 
 1.  **Copy the LV2 Bundles:** Copy both folders to your user's LV2 directory.
     ```bash
-    cp -r ~/Downloads/integra.lv2 /path/to/lv2/directory/
-    cp -r ~/Downloads/pulverize.lv2 /path/to/lv2/directory/
+    cp -r ~/Downloads/kaoss-integra.lv2 /path/to/lv2/directory/
+    cp -r ~/Downloads/kaoss-pulverize.lv2 /path/to/lv2/directory/
     ```
 2.  **Scan for Plugins:** Your LV2 host should detect the new plugins on its next scan.
 
