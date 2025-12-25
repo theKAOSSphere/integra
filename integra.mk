@@ -5,7 +5,7 @@
 INTEGRA_SITE_METHOD = local
 INTEGRA_SITE = $($(PKG)_PKGDIR)/
 INTEGRA_DEPENDENCIES =
-INTEGRA_BUNDLES = integra.lv2
+INTEGRA_BUNDLES = kaoss-integra.lv2
 
 # version (bump to force rebuild if needed)
 INTEGRA_VERSION = 1

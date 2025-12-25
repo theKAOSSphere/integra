@@ -10,12 +10,12 @@ VARIANT ?= integra
 
 # Set Name and Bundle based on Variant
 ifeq ($(VARIANT), pulverize)
-    NAME = pulverize
-    BUNDLE = pulverize.lv2
+    NAME = kaoss-pulverize
+    BUNDLE = kaoss-pulverize.lv2
     CXXFLAGS += -DPULVERIZE_MODE
 else
-    NAME = integra
-    BUNDLE = integra.lv2
+    NAME = kaoss-integra
+    BUNDLE = kaoss-integra.lv2
 endif
 
 SRC  = integra.cpp

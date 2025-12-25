@@ -6,7 +6,7 @@ PULVERIZE_SITE_METHOD = local
 # Point to the parent directory (the root of the repo)
 PULVERIZE_SITE = $($(PKG)_PKGDIR)/../
 PULVERIZE_DEPENDENCIES =
-PULVERIZE_BUNDLES = pulverize.lv2
+PULVERIZE_BUNDLES = kaoss-pulverize.lv2
 
 # version
 PULVERIZE_VERSION = 1
